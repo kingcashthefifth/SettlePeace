@@ -26,6 +26,11 @@ class Navbar extends React.Component {
               </NavLink>
             </li>
             <li className="sidebar-nav-item">
+              <NavLink className="js-scroll-trigger" to="/quotes">
+                View Quotes
+              </NavLink>
+            </li>
+            <li className="sidebar-nav-item">
               <NavLink className="js-scroll-trigger" to="/new">
                 New Quote
               </NavLink>
@@ -55,13 +60,6 @@ class Navbar extends React.Component {
               </NavLink>
             </li>
           </ul>
-
-          {/* <NavLink to="/quotes" className="btn btn-outline-success my-2 my-sm-0">
-            View Quotes
-          </NavLink>
-          <NavLink to="/new" className="btn btn-outline-success my-2 my-sm-0">
-            New Quote
-          </NavLink> */}
         </nav>
       </React.Fragment>
     );

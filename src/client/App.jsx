@@ -4,6 +4,7 @@ import {hot} from 'react-hot-loader';
 import Counter from './components/counter/counter';
 import Form from './components/form/form';
 import Listquotes from './components/form/listquotes';
+import Landing from './components/landing/landing';
 
 import Quoteform from './components/form/quoteform';
 import Test from './components/form/test';
@@ -24,6 +25,7 @@ class App extends React.Component {
         <div>
           <Navbar />
           <Switch>
+            <Route path="/" component={Landing} exact />
             <Route path="/new" component={Quoteform} />
             <Route path="/quotes" component={Listquotes} />
           </Switch>
