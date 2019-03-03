@@ -1,0 +1,6 @@
+INSERT INTO users (firstname, lastname, username, password, email) VALUES ('cash', 'teo', 'kingcashthefifth', '123123', 'kingcashthefifth@gmail.com');
+INSERT INTO quotes (quote_ref, title, attention, docline) VALUES ('REF001', 'Electrical Services', 'Zuei Tam', '[{"part_no":"1", "description": "cash machine model 5000", "price": "300", "tax": "0"}, {"part_no":"2", "description": "cash machine ink", "price": "50", "tax": "0"}, {"part_no":"3", "description": "receipt paper", "price": "2.50", "tax": "0"}]');
+
+
+INSERT INTO quotes (quote_ref, title, attention, docline) VALUES ('REF002', 'Tech Consulting Services', 'Phua LJ', '[{"part_no":"1", "description": "cash machine model 5000", "price": "300", "tax": "0"}, {"part_no":"2", "description": "cash machine ink", "price": "50", "tax": "0"}, {"part_no":"3", "description": "receipt paper", "price": "2.50", "tax": "0"}]');
+INSERT INTO quotes (quote_ref, title, attention, docline) VALUES ('REF003', 'Design Consulting Services', 'Clara Stylesheets', '[{"part_no":"1", "description": "cash machine model 5000", "price": "300", "tax": "0"}, {"part_no":"2", "description": "cash machine ink", "price": "50", "tax": "0"}, {"part_no":"3", "description": "receipt paper", "price": "2.50", "tax": "0"}]');

@@ -1,9 +1,9 @@
 module.exports = (db) => {
-  let jsonget = (request, response) => {
-    db.pokemon.jsonget((error, data) => {
-      if (error) {
-        console.log('error getting data', error);
-        response.statis(500);
+  let getQuotes = (request, response) => {
+    db.quote.getQuotes((err, data) => {
+      if (err) {
+        console.log('error getting data', err);
+        response.status(500);
         response.send('server error');
       } else {
         if (data == null) {
@@ -17,33 +17,39 @@ module.exports = (db) => {
     });
   };
 
-  let apiget = (request, response) => {
-    const stuff = {
-      banana: 'oranges',
-      kiwi: 'apple'
-    };
-
-    response.send(stuff);
+  let addQuote = (request, response) => {
+    console.log('request.body', request.body);
+    response.send(request.body);
+    // db.quote.addQuote((err, data) => {
+    //   if (err) {
+    //     console.log('error getting data', err);
+    //     response.status(500);
+    //     response.send('server error');
+    //   } else {
+    //     if (data == null) {
+    //       response.status(404);
+    //       response.send('not found');
+    //     } else {
+    //       console.log('get data success: ', data);
+    //       response.send(data);
+    //     }
+    //   }
+    // });
   };
 
-  let get = (request, response) => {
-    // use pokemon model method `get` to retrieve pokemon data
-    console.log(db);
-
-    db.pokemon.get(request.params.id, (error, pokemon) => {
-      // queryResult contains pokemon data returned from the pokemon model
+  let jsonget = (request, response) => {
+    db.quote.jsonget((error, data) => {
       if (error) {
-        console.error('error getting pokemon', error);
+        console.log('error getting data', error);
         response.status(500);
         response.send('server error');
       } else {
-        if (pokemon === null) {
-          // render pokemon view in the pokemon folder
+        if (data == null) {
           response.status(404);
           response.send('not found');
         } else {
-          // render pokemon view in the pokemon folder
-          response.render('pokemon/show', {pokemon: pokemon});
+          console.log('get data success: ', data);
+          response.send(data);
         }
       }
     });
@@ -85,8 +91,8 @@ module.exports = (db) => {
   };
 
   return {
-    get: get,
-    apiget: apiget,
+    getQuotes: getQuotes,
+    addQuote: addQuote,
     jsonget: jsonget,
     jsonform: jsonform,
     jsoninsert: jsoninsert
