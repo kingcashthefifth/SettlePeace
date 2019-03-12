@@ -1,8 +1,8 @@
 import React from 'react';
 
 class Lines extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: '',
       company_name: '',
@@ -31,15 +31,33 @@ class Lines extends React.Component {
     };
     this.tempFunc = this.tempFunc.bind(this);
     this.deleteIt = this.deleteIt.bind(this);
+    // this.passBackTotal = this.passBackTotal.bind(this);
   }
 
   tempFunc(event) {
-    this.props.handleChange(event);
-    console.log(`this.props.quantity: `, this.props.quantity);
-    console.log(`this.props.price: `, this.props.price);
+    const name = event.target.name;
+    console.log('TCL: Lines -> tempFunc -> name', name);
+    const value = event.target.value;
+    console.log('TCL: Lines -> tempFunc -> value', value);
+    const row = this.props.id;
+    console.log('TCL: Lines -> tempFunc -> row', row);
+
+    this.props.linehandleChange(name, value, row);
+
+    if (this.props.price && this.props.quantity) {
+      let lineTotal = this.props.price * this.props.quantity;
+      this.props.totalLine(lineTotal, row);
+    }
+    // console.log(`this.props.quantity: `, this.props.quantity);
+    // console.log(`this.props.price: `, this.props.price);
     // let newtotal = this.props.quantity * this.props.price;
     // this.setState({total_price: newtotal});
   }
+
+  // passBackTotal(value) {
+  //   let row = this.props.id;
+  //   this.props.totalLine(value, row);
+  // }
 
   deleteIt(e) {
     e.preventDefault();
@@ -48,30 +66,37 @@ class Lines extends React.Component {
   }
 
   render() {
+    let lineTotal;
+    if (this.props.price && this.props.quantity) {
+      lineTotal = this.props.price * this.props.quantity;
+      // this.passBackTotal(lineTotal);
+    } else {
+      lineTotal = 0;
+    }
     return (
       <tr id={this.props.id}>
         <td>
           <input
             name="part_no"
-            value={this.props.part_no}
+            defaultValue={this.props.part_no}
             placeholder="1"
             style={{width: '20%', border: '0'}}
-            onChange={this.props.handleChange}
+            onChange={this.tempFunc}
           />
         </td>
         <td>
           <input
             name="description"
-            value={this.props.description}
+            defaultValue={this.props.description}
             placeholder="Support"
             style={{width: '100%', border: '0'}}
-            onChange={this.props.handleChange}
+            onChange={this.tempFunc}
           />
         </td>
         <td>
           <input
             name="quantity"
-            value={this.props.quantity}
+            defaultValue={this.props.quantity}
             placeholder="234"
             style={{width: '40%', border: '0'}}
             onChange={this.tempFunc}
@@ -81,13 +106,13 @@ class Lines extends React.Component {
           $
           <input
             name="price"
-            value={this.props.price}
+            defaultValue={this.props.price}
             placeholder="6356"
             style={{width: '50%', border: '0'}}
             onChange={this.tempFunc}
           />
         </td>
-        <td>${this.state.total_price}</td>
+        <td>$ {lineTotal}</td>
         <td>
           <button className="hidePrint" onClick={this.deleteIt}>
             X

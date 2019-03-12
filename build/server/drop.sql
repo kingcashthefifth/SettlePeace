@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS quotes;
+
+DROP TABLE IF EXISTS doclines;

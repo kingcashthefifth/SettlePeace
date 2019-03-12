@@ -1,6 +1,6 @@
 module.exports = (db) => {
   let getQuotes = (request, response) => {
-    db.quote.getQuotes((err, data) => {
+    db.quote.getQuotes(request, (err, data) => {
       if (err) {
         console.log('error getting data', err);
         response.status(500);
@@ -17,24 +17,88 @@ module.exports = (db) => {
     });
   };
 
+  let getSingleQuote = (request, response) => {
+    db.quote.getSingleQuote(request, (err, data) => {
+      if (err) {
+        console.log('error getting data', err);
+        response.status(500);
+        response.send('server error');
+      } else {
+        if (data == null) {
+          response.status(404);
+          response.send('not found');
+        } else {
+          console.log('get data success: ', data);
+          response.send(data);
+        }
+      }
+    });
+  };
+
+  let updateSingleQuote = (request, response) => {
+    console.log('request.body', request.body);
+    console.log('request.body.part_no', request.body.part_no);
+
+    db.quote.updateSingleQuote(request, (err, data) => {
+      if (err) {
+        console.log('error getting data', err);
+        response.status(500);
+        response.send('server error');
+      } else {
+        if (data == null) {
+          response.status(404);
+          response.send('not found');
+        } else {
+          console.log('get data success: ', data);
+          response.redirect('/quotes');
+        }
+      }
+    });
+  };
+
+  let deleteSingleQuote = (request, response) => {
+    console.log('request.body', request.body);
+    console.log('request.body.part_no', request.body.part_no);
+
+    db.quote.deleteSingleQuote(request, (err, data) => {
+      if (err) {
+        console.log('error getting data', err);
+        response.status(500);
+        response.send('server error');
+      } else {
+        if (data == null) {
+          response.status(404);
+          response.send('not found');
+        } else {
+          console.log('get data success: ', data);
+          response.redirect('/quotes');
+        }
+      }
+    });
+  };
+
   let addQuote = (request, response) => {
     console.log('request.body', request.body);
-    response.send(request.body);
-    // db.quote.addQuote((err, data) => {
-    //   if (err) {
-    //     console.log('error getting data', err);
-    //     response.status(500);
-    //     response.send('server error');
-    //   } else {
-    //     if (data == null) {
-    //       response.status(404);
-    //       response.send('not found');
-    //     } else {
-    //       console.log('get data success: ', data);
-    //       response.send(data);
-    //     }
-    //   }
-    // });
+    console.log('request.body.part_no', request.body.part_no);
+    // response.redirect('/quotes');
+    // response.send(request.body);
+
+    // response.send(request.body);
+    db.quote.addQuote(request, (err, data) => {
+      if (err) {
+        console.log('error getting data', err);
+        response.status(500);
+        response.send('server error');
+      } else {
+        if (data == null) {
+          response.status(404);
+          response.send('not found');
+        } else {
+          console.log('get data success: ', data);
+          response.redirect('/quotes');
+        }
+      }
+    });
   };
 
   let jsonget = (request, response) => {
@@ -92,6 +156,9 @@ module.exports = (db) => {
 
   return {
     getQuotes: getQuotes,
+    getSingleQuote: getSingleQuote,
+    updateSingleQuote: updateSingleQuote,
+    deleteSingleQuote: deleteSingleQuote,
     addQuote: addQuote,
     jsonget: jsonget,
     jsonform: jsonform,

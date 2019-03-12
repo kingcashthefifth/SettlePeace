@@ -12,11 +12,11 @@ class Listquotes extends React.Component {
       // quotetitle: [],
       // quotetitle: []
     };
-    this.wordChecker = this.wordChecker.bind(this);
+    this.searchChecker = this.searchChecker.bind(this);
   }
 
   componentDidMount() {
-    fetch('/quotelist')
+    fetch('/api/quotelist')
       .then((results) => {
         console.log('results: ', results);
         return results.json();
@@ -33,25 +33,106 @@ class Listquotes extends React.Component {
       });
   }
 
-  wordChecker(e) {
-    let newWord = e.target.value;
-    this.setState({monkey: newWord});
+  searchChecker(e) {
+    let resultLength = 0;
+    for (let i = 0; i < this.state.quotetitle.length; i++) {
+      document.querySelectorAll('.itemlister')[i].style.display = 'none';
+    }
+    for (let i = 0; i < this.state.quotetitle.length; i++) {
+      if (
+        document
+          .querySelectorAll('.attentionSearch')
+          [i].innerHTML.toLowerCase()
+          .includes(e.target.value.toLowerCase()) ||
+        document
+          .querySelectorAll('.quote_refSearch')
+          [i].innerHTML.toLowerCase()
+          .includes(e.target.value.toLowerCase()) ||
+        document
+          .querySelectorAll('.job_titleSearch')
+          [i].innerHTML.toLowerCase()
+          .includes(e.target.value.toLowerCase())
+      ) {
+        resultLength++;
+        document.querySelectorAll('.itemlister')[i].style.display = '';
+      }
+    }
   }
 
   render() {
+    console.log('THIS IS PROPS: ', this.props);
     const quotelist = this.state.quotetitle.map((obj, index) => {
       return (
-        <NavLink key={index} to="#" className="list-group-item list-group-item-action flex-column align-items-start">
-          <div className="d-flex w-100 justify-content-between">
-            <h5 className="mb-1">To: {obj.attention}</h5>
-            <small>{obj.quote_ref}</small>
+        <React.Fragment>
+          <NavLink
+            key={obj.id}
+            to={'quote/' + obj.id}
+            className="list-group-item list-group-item-action flex-column align-items-start itemlister"
+          >
+            <div className="row">
+              <div className="col-11" style={{borderRight: '1px solid lightgrey'}}>
+                <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1 attentionSearch">To: {obj.customer_attention}</h5>
+                  <small className="quote_refSearch">Quote Reference: #{obj.quote_ref}</small>
+                </div>
+                <div className="d-flex w-100 justify-content-between">
+                  <p className="mb-1 job_titleSearch">Job Title: {obj.job_title}</p>
+                </div>
+                <small>Created on: {obj.created_at}</small>
+              </div>
+              <div className="col text-center justify-content-center align-items-center h-100">
+                <a
+                  className="align-middle"
+                  href={'#exampleModal' + obj.id}
+                  data-toggle="modal"
+                  style={{fontSize: '1.1rem'}}
+                >
+                  {/* &#10005; */}Delete
+                </a>
+              </div>
+            </div>
+          </NavLink>
+          <div
+            className="modal fade"
+            id={'exampleModal' + obj.id}
+            tabIndex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    Delete confirmation
+                  </h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  Job title: <br />
+                  <strong>{obj.job_title}</strong>
+                  <br />
+                  <br />
+                  Do you wish to delete this quotation?
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">
+                    Back
+                  </button>
+                  <a href={'/api/delete/' + obj.id} className="btn btn-primary">
+                    Delete
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="mb-1">Job Title: {obj.title}</p>
-          <small>Quoted price will show here.</small>
-        </NavLink>
+        </React.Fragment>
       );
     });
     console.log('this.state.quotelist: ', this.state.quotetitle[0]);
+    console.log('quotelist: ', quotelist);
     return (
       <div>
         <div className="list-group my-3">
@@ -62,10 +143,16 @@ class Listquotes extends React.Component {
             </div>
             <div className="mb-1">
               <form className="form-inline my-2 my-lg-0">
-                <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
+                <input
+                  className="form-control mr-sm-2 w-25"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  onChange={this.searchChecker}
+                />
+                {/* <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
                   Search
-                </button>
+                </button> */}
               </form>
             </div>
             <small>Search by Quote Refs, Customer Names, Job Titles.</small>
