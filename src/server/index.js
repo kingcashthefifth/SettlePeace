@@ -2,7 +2,9 @@ const http = require('http');
 const express = require('express');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const db = require('./db');
+const sha256 = require('js-sha256');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 process.env.PORT = process.env.PORT || 3000;
@@ -23,6 +25,7 @@ const app = express();
 app.set('env', process.env.NODE_ENV);
 
 // Set up middleware
+// app.use(sha256());
 app.use(methodOverride('_method'));
 app.use(cookieParser());
 app.use(
@@ -31,6 +34,11 @@ app.use(
   })
 );
 
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 // Set react-views to be the default view engine
 const reactEngine = require('express-react-views').createEngine();
 app.set('views', __dirname + '/views');

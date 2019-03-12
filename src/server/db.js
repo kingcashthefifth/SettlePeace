@@ -1,5 +1,6 @@
 const pg = require('pg');
 const quote = require('./models/quote');
+const user = require('./models/user');
 const url = require('url');
 
 var configs;
@@ -36,6 +37,7 @@ module.exports = {
    * ADD APP MODELS HERE
    */
   quote: quote(pool),
+  user: user(pool),
 
   //make queries directly from here
   queryInterface: (text, params, callback) => {
