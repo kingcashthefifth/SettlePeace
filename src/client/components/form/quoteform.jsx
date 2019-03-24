@@ -41,8 +41,8 @@ class Quoteform extends React.Component {
       newlines: ['', '', ''],
       linecount: [0, 1, 2],
       linecounter: 2,
-      toggleDiscount: true
-      // linecount: [<Lines />, <Lines />, <Lines />]
+      toggleDiscount: true,
+      logged: 111
     };
     this.handleChange = this.handleChange.bind(this);
     this.addLine = this.addLine.bind(this);
@@ -50,39 +50,25 @@ class Quoteform extends React.Component {
     this.linehandleChange = this.linehandleChange.bind(this);
     this.totalLine = this.totalLine.bind(this);
     this.removeDiscount = this.removeDiscount.bind(this);
-    // this.submitForm = this.submitForm.bind(this);
+    // this.rerenderform = this.rerenderform.bind(this);
   }
 
   handleChange(event) {
-    // console.log('event.target.id: ', [event.target.id]);
-    // console.log('event.target.value: ', event.target.value);
-    // this.setState({ [event.target.id]: event.target.value });
-    // console.log('event.target.id: ', [event.target.name]);
-    // console.log('event.target.value: ', event.target.value);
-    // console.log('onChange activated!!!');
     this.setState({[event.target.name]: event.target.value});
   }
 
   linehandleChange(name, value, row) {
-    // console.log('this.state[name][row] before: ', this.state[name][row]);
     this.state[name][row] = value;
-    // console.log('this.state[name][row] after: ', this.state[name][row]);
     this.setState({
       [name]: this.state[name]
     });
-    // console.log('onChange activated!!!');
-    // this.setState({name: value});
   }
 
   totalLine(value, row) {
-    // console.log('this.state.total_price[row] before: ', this.state.total_price[row]);
     this.state.total_price[row] = value;
-    // console.log('this.state.total_price[row] after: ', this.state.total_price[row]);
-    // console.log('this.state.total_price: ', this.state.total_price);
     this.setState({
       total_price: this.state.total_price
     });
-    // console.log('onChange activated!!!');
   }
 
   printPDF(event) {
@@ -91,127 +77,95 @@ class Quoteform extends React.Component {
   }
 
   removeDiscount(event) {
-    // console.log('removeDiscount fired!');
     if (event.target.checked) {
       document.querySelector('#subTotalDisplay').classList.remove('hideDiscount');
       document.querySelector('#discountDisplay').classList.remove('hideDiscount');
-      // console.log('box checked');
     } else {
       document.querySelector('#subTotalDisplay').classList.add('hideDiscount');
       document.querySelector('#discountDisplay').classList.add('hideDiscount');
-      // console.log('box unchecked');
       this.setState({
         discount: 0
       });
     }
   }
 
-  // removeDiscount = (name) => (event) => {
-  //   this.setState({[name]: !event.target.checked});
-  // };
-
   addLine(event) {
     event.preventDefault();
-    // console.log('addline function activated');
-    // console.log('current linecounter: ', this.state.linecounter);
     let count = this.state.linecounter + 1;
     let addTolinecount = [...this.state.linecount, count];
     this.setState({linecount: addTolinecount, linecounter: count});
   }
 
   delLines(id) {
-    // console.log('id: ', id);
     let arr = [...this.state.linecount];
     arr.splice(arr.indexOf(id), 1);
     this.setState({linecount: arr});
   }
 
-  // submitForm(e) {
-  //   e.preventDefault();
-  //   let data1 = {
-  //     company_name: this.state.company_name,
-  //     company_addr1: this.state.company_addr1,
-  //     company_addr2: this.state.company_addr2,
-  //     company_postal: this.state.company_postal,
-  //     company_gst: this.state.company_gst,
-  //     company_logo: this.state.company_logo,
-  //     customer_com_name: this.state.customer_com_name,
-  //     customer_com_addr1: this.state.customer_com_addr1,
-  //     customer_com_postal: this.state.customer_com_postal,
-  //     customer_attention: this.state.customer_attention,
-  //     customer_email: this.state.customer_email,
-  //     customer_number: this.state.customer_number,
-  //     quote_ref: this.state.quote_ref,
-  //     quote_date: this.state.quote_date,
-  //     job_title: this.state.job_title,
-  //     part_no: this.state.part_no,
-  //     description: this.state.description,
-  //     quantity: this.state.quantity,
-  //     price: this.state.price,
-  //     discount: this.state.discount,
-  //     toggleDiscount: this.state.toggleDiscount
-  //   };
-  //   console.log('this.state BEF new post: ', data1);
-  //   let jsonedData = JSON.stringify(data1);
-  //   console.log('this.state BEF data.json(): ', jsonedData);
+  // componentDidMount() {
+  //   fetch('/api/isloggedin')
+  //     .then((result) => {
+  //       console.log(`result: `, result);
+  //       return result.json();
+  //     })
+  //     .then((finalResult) => {
+  //       console.log(`finalResult.authen: `, finalResult.authen);
+  //       if (finalResult.authen == false) {
+  //         console.log(`this.state.logged: `, this.state.logged);
+  //         this.setState({
+  //           logged: 111
+  //         });
+  //       } else if (finalResult.authen == true) {
+  //         this.setState({
+  //           logged: 222
+  //         });
+  //       }
+  //     });
+  // }
 
-  //   console.log('this.state.part_no: ', this.state.part_no);
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.loggedin !== prevProps.loggedin) {
+  //     this.rerenderform();
+  //   }
+  // }
 
-  //   fetch('/quotelist', {
-  //     method: 'POST',
-  //     body: JSON.stringify(data1),
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded'
-  //     }
-  //   });
-  //   // axios(
-  //   //   {
-  //   //     method: 'post',
-  //   //     url: '/quotelist',
-  //   //     data: {
-  //   //       data1
-  //   //     },
-  //   //     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-  //   //   }
-  //   // '/quotelist',
-
-  //   // jsonedData
-  //   // // company_name: this.state.company_name,
-  //   // company_addr1: this.state.company_addr1,
-  //   // company_addr2: this.state.company_addr2,
-  //   // company_postal: this.state.company_postal,
-  //   // company_gst: this.state.company_gst,
-  //   // company_logo: this.state.company_logo,
-  //   // customer_com_name: this.state.customer_com_name,
-  //   // customer_com_addr1: this.state.customer_com_addr1,
-  //   // customer_com_postal: this.state.customer_com_postal,
-  //   // customer_attention: this.state.customer_attention,
-  //   // customer_email: this.state.customer_email,
-  //   // customer_number: this.state.customer_number,
-  //   // quote_ref: this.state.quote_ref,
-  //   // quote_date: this.state.quote_date,
-  //   // job_title: this.state.job_title,
-  //   // part_no: this.state.part_no,
-  //   // description: this.state.description,
-  //   // quantity: this.state.quantity,
-  //   // price: this.state.price,
-  //   // discount: this.state.discount,
-  //   // toggleDiscount: this.state.toggleDiscount
-  //   // {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
-  //   // );
-  //   //   .then((results) => {
-  //   //   console.log('results: ', results);
-  //   //   this.props.history.push('/quotes');
-  //   // });
+  // rerenderform() {
+  //   fetch('/api/isloggedin')
+  //     .then((result) => {
+  //       return result.json();
+  //     })
+  //     .then((finalResult) => {
+  //       if (finalResult.authen == false) {
+  //         this.setState({
+  //           logged: 111
+  //         });
+  //       } else if (finalResult.authen == true) {
+  //         this.setState({
+  //           logged: 222
+  //         });
+  //       }
+  //     });
   // }
 
   render() {
-    // console.log('QUOTEFORM THIS.PROPS: ', this.props);
-    // console.log('QUOTEFORM THIS.PROPS.LOCATION.PATHNAME: ', this.props.location.pathname);
-    // console.log('this.state.company_name: ', this.state.company_name);
-
     let logoURL;
     let createButton;
+
+    // if ((this.state.logged = 222)) {
+    //   console.log('this.state.logged is 222, create button will show.');
+    //   console.log('this.props.loggedin: ', this.props.loggedin);
+
+    //   createButton = (
+    //     <button type="submit" className="btn btn-light mr-3" style={{ color: 'black' }}>
+    //       Create quote
+    //     </button>
+    //   );
+    // } else if (this.state.logged == 111) {
+    //   console.log('this.state.logged is 111, create button no show');
+    //   console.log('this.props.loggedin: ', this.props.loggedin);
+
+    //   createButton = null;
+    // }
 
     if (this.props.loggedin) {
       createButton = (
@@ -219,6 +173,8 @@ class Quoteform extends React.Component {
           Create quote
         </button>
       );
+    } else if (this.props.loggedin) {
+      createButton = null;
     }
 
     if (this.state.company_logo == null) {
@@ -259,41 +215,7 @@ class Quoteform extends React.Component {
       grandTotal = `$0`;
     }
 
-    // if ((this.props.match.path = '/quote/:id')) {
-    //   formlines = this.props.doclines.map((obj, index) => {
-    //     // this.setState({newlines: [...this.state.newlines, {}]});
-    //     return (
-    //       <Lines
-    //         key={index}
-    //         id={obj}
-    //         part_no={obj.part_no}
-    //         description={obj.description}
-    //         quantity={obj.quantity}
-    //         price={obj.price}
-    //         linehandleChange={this.linehandleChange}
-    //         totalLine={this.totalLine}
-    //       />
-    //     );
-    //   });
-    // } else if (this.state.newlines.length > 0) {
-    //   formlines = this.state.newlines.map((obj, index) => {
-    //     // this.setState({newlines: [...this.state.newlines, {}]});
-    //     return (
-    //       <Lines
-    //         key={index}
-    //         id={obj}
-    //         part_no={obj.part_no}
-    //         description={obj.description}
-    //         quantity={obj.quantity}
-    //         price={obj.price}
-    //         linehandleChange={this.linehandleChange}
-    //         totalLine={this.totalLine}
-    //       />
-    //     );
-    //   });
-    // } else {
     formlines = this.state.linecount.map((obj, index) => {
-      // console.log('this is obj: ', obj);
       return (
         <Lines
           key={obj}
@@ -308,9 +230,6 @@ class Quoteform extends React.Component {
         />
       );
     });
-    // console.log('quoteform this.state.quantity: ', this.state.quantity);
-    // }
-
     return (
       <form action="/quotelist" method="post">
         <div className="container mt-5">

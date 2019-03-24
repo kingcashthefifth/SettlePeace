@@ -49,6 +49,11 @@ module.exports = (db) => {
     let salt = 'i am so handsome, you are beautiful';
     let result = {};
     if (request.cookies['SPsession'] == sha256(request.cookies['user_id'] + 'logged_in' + salt)) {
+      console.log('controller isLoggedIn cookie true with user_id cookie authen');
+      console.log(`request.cookies['SPsession']: `, request.cookies['SPsession']);
+      console.log(`sha256(request.cookies['user_id']: `, sha256(request.cookies['user_id']));
+      console.log(`salt: `, salt);
+
       result.authen = true;
       response.send(result);
     } else {
