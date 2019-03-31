@@ -19,6 +19,10 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'eslint-loader',
+
+        // test: /\.(js|jsx)$/,
+        // exclude: /node_modules/,
+        // loader: 'eslint-loader',
         options: {
           emitWarning: true,
           quiet: false,
@@ -29,7 +33,7 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         use: ['babel-loader'],
-        exclude: /node_modules/
+        exclude: /(node_modules|bower_components)/
       },
       {
         test: /\.html$/,

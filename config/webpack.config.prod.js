@@ -9,6 +9,13 @@ module.exports = merge(commonConfig, {
   mode: 'production',
   plugins: [
     new UglifyJsPlugin({
+      sourceMap: true,
+      uglifyOptions: {
+        ecma: 8,
+        compress: {
+          warnings: false
+        }
+      },
       parallel: true,
       extractComments: true
     }),
