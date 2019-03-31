@@ -22,6 +22,24 @@ class App extends React.Component {
     this.changingAuth = this.changingAuth.bind(this);
   }
 
+  componentDidMount() {
+    fetch('/api/isloggedin')
+      .then((result) => {
+        return result.json();
+      })
+      .then((finalResult) => {
+        if (finalResult.authen == false) {
+          this.setState({
+            authen: false
+          });
+        } else {
+          this.setState({
+            authen: true
+          });
+        }
+      });
+  }
+
   changingAuth() {
     if (this.state.authen) {
       this.setState({
