@@ -1,5 +1,7 @@
 # SettlePeace
 
+Try it out **here!(https://settle-peace.herokuapp.com)**
+
 ![screenshot](readme_mats/Screenshot.png)
 
 A simple and easy to use quotation creation app for Small Businesses
