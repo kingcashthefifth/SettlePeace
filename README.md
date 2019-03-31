@@ -1,6 +1,6 @@
 # SettlePeace
 
-Try it out **here!(https://settle-peace.herokuapp.com)**
+Try it out **[here](https://settle-peace.herokuapp.com)**!
 
 ![screenshot](readme_mats/Screenshot.png)
 
